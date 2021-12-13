@@ -1,0 +1,10 @@
+name: Chat Auction
+version: '${project.version}'
+main: com.reloadedsmp.chatauction.ChatAuction
+api-version: 1.18
+authors: [ LoaiDev ]
+depend: [ Vault ]
+description: Auction Items using chat.
+commands:
+  auction:
+    description: auction your item.
