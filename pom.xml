@@ -9,7 +9,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>Chat Auction</name>
+    <name>ChatAuction</name>
 
     <description>Auction Items using chat.</description>
     <properties>

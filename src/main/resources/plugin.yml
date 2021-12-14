@@ -1,4 +1,4 @@
-name: Chat Auction
+name: ChatAuction
 version: '${project.version}'
 main: com.reloadedsmp.chatauction.ChatAuction
 api-version: 1.18
@@ -7,4 +7,11 @@ depend: [ Vault ]
 description: Auction Items using chat.
 commands:
   auction:
-    description: auction your item.
+    description: Auction your item.
+    permission: auction.auction
+  bid:
+    description: Bid on an auction.
+    permission: auction.bid
+  auctionend:
+    permission: auction.admin.end
+    description: Force stop and finish the auction.
