@@ -47,7 +47,7 @@ public class Auction {
     }
 
     public static boolean startAuction(ItemStack item, Player player, Double price) {
-        if (currentItem != null) return false;
+        if (isActive()) return false;
         // set user, item and starting price
         seller = player.getUniqueId();
         currentItem = item;

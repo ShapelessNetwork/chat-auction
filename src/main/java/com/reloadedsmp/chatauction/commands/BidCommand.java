@@ -16,7 +16,7 @@ public class BidCommand implements CommandExecutor {
         if (!(sender instanceof Player player)) return false; // no console
         if (!Auction.isActive()) // check for active auction
             return invalid("There is no active auction.", player);
-        if (Auction.getSellerUUID().equals(player.getUniqueId())) // don't allow the player to bid on his own auction
+        if (Auction.getSellerUUID().equals(player.getUniqueId())) // don't allow the player to bid on their own auction
             return invalid("You can not bid on your own auction!", player);
         // parse the bid value provided by the player
         Double value;

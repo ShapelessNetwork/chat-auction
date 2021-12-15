@@ -26,6 +26,7 @@ public class AuctionCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false; // can't use it from console
         if (args.length < 1) return invalid("Please specify a starting bid.", player); // missing argument
+
         // Logic to claim the stored auction items
         if (args[0].equals("claim")) {
             if (!AuctionStorage.exists(player.getUniqueId())) // return if player doesn't have items to claim
@@ -39,7 +40,7 @@ public class AuctionCommand implements CommandExecutor {
                 player.sendMessage(Component.text("Items claimed.", NamedTextColor.GREEN));
                 return true;
             }
-            // if the player didn't have enough space for the items, we will add them back to his storage.
+            // if the player didn't have enough space for the items, we will add them back to their storage.
             AuctionStorage.set(player.getUniqueId(), remaining.values());
             player.sendMessage(Component.text("Not all items were claimed.", NamedTextColor.YELLOW));
             return true;
@@ -53,8 +54,6 @@ public class AuctionCommand implements CommandExecutor {
                 return invalid("You can't use that command for another " + formatTime((int) secondsLeft), player);
             }
         }
-        // add player to the cooldown list
-        cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
 
         // don't allow 2 active auctions at once.
         if (Auction.isActive()) return invalid("There is currently an active auction.", player);
@@ -67,9 +66,13 @@ public class AuctionCommand implements CommandExecutor {
         // get the itemStack and start the auction
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!Auction.startAuction(item, player, price)) {
+            Auction.resetAuction();
             return invalid("There was a problem with creating the auction.", player);
         }
-        // finally we remove the item from the player's hand
+        // add player to the cooldown list
+        cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
+
+        // finally, we remove the item from the player's hand
         player.getInventory().setItemInMainHand(null);
         return true;
     }
@@ -81,14 +84,14 @@ public class AuctionCommand implements CommandExecutor {
     }
 
     protected String formatTime(int totalSeconds) {
-            // This will format the message to "x Minute(s) y Second(s)"
-            int secs = totalSeconds % 60;
-            int minutes = totalSeconds / 60;
-            StringBuilder builder = new StringBuilder(24);
-            if (minutes != 0) {
-                builder.append(minutes).append(" Minutes(s) ");
-            }
-            builder.append(secs).append(" Second(s) ");
-            return builder.toString();
+        // This will format the message to "x Minute(s) y Second(s)"
+        int secs = totalSeconds % 60;
+        int minutes = totalSeconds / 60;
+        StringBuilder builder = new StringBuilder(24);
+        if (minutes != 0) {
+            builder.append(minutes).append(" Minutes(s) ");
+        }
+        builder.append(secs).append(" Second(s) ");
+        return builder.toString();
     }
 }
