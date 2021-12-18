@@ -1,8 +1,8 @@
-package com.reloadedsmp.chatauction.commands;
+package me.loaidev.chatauction.commands;
 
-import com.reloadedsmp.chatauction.Auction;
-import com.reloadedsmp.chatauction.AuctionStorage;
-import com.reloadedsmp.chatauction.Economy;
+import me.loaidev.chatauction.Auction;
+import me.loaidev.chatauction.AuctionStorage;
+import me.loaidev.chatauction.Economy;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;

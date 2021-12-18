@@ -1,14 +1,14 @@
-package com.reloadedsmp.chatauction;
+package me.loaidev.chatauction;
 
-import com.reloadedsmp.chatauction.commands.AuctionCommand;
-import com.reloadedsmp.chatauction.commands.AuctionEndCommand;
-import com.reloadedsmp.chatauction.commands.BidCommand;
+import me.loaidev.chatauction.commands.AuctionCommand;
+import me.loaidev.chatauction.commands.AuctionEndCommand;
+import me.loaidev.chatauction.commands.BidCommand;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class ChatAuction extends JavaPlugin {
+public final class LoaiChatAuction extends JavaPlugin {
 
-    public static ChatAuction instance;
+    public static LoaiChatAuction instance;
 
     public static Configuration config;
 

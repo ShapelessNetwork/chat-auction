@@ -1,4 +1,4 @@
-package com.reloadedsmp.chatauction;
+package me.loaidev.chatauction;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +16,7 @@ public class AuctionStorage {
 
     protected static File storageFolder;
 
-    public static boolean init(ChatAuction plugin) {
+    public static boolean init(LoaiChatAuction plugin) {
         // create folder if doesn't exist
         storageFolder = new File(plugin.getDataFolder(), "storage");
         return (storageFolder.exists() || storageFolder.mkdirs());

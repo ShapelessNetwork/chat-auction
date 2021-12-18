@@ -1,6 +1,6 @@
-package com.reloadedsmp.chatauction.commands;
+package me.loaidev.chatauction.commands;
 
-import com.reloadedsmp.chatauction.Auction;
+import me.loaidev.chatauction.Auction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

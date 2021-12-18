@@ -1,4 +1,4 @@
-package com.reloadedsmp.chatauction;
+package me.loaidev.chatauction;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -11,7 +11,7 @@ public class Economy {
 
     private static net.milkbowl.vault.economy.Economy econ;
 
-    public static boolean init(ChatAuction plugin) {
+    public static boolean init(LoaiChatAuction plugin) {
         // register the vault hooks
         if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) return false;
 

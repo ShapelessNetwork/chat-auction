@@ -1,6 +1,6 @@
-package com.reloadedsmp.chatauction.tasks;
+package me.loaidev.chatauction.tasks;
 
-import com.reloadedsmp.chatauction.Auction;
+import me.loaidev.chatauction.Auction;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AnnounceRemainingTask extends BukkitRunnable {

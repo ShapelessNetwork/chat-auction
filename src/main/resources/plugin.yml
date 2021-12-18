@@ -1,6 +1,6 @@
-name: ChatAuction
+name: LoaiChatAuction
 version: '${project.version}'
-main: com.reloadedsmp.chatauction.ChatAuction
+main: me.loaidev.chatauction.LoaiChatAuction
 api-version: 1.18
 authors: [ LoaiDev ]
 depend: [ Vault ]

@@ -1,8 +1,8 @@
-package com.reloadedsmp.chatauction;
+package me.loaidev.chatauction;
 
-import com.reloadedsmp.chatauction.tasks.AnnounceRemainingTask;
-import com.reloadedsmp.chatauction.tasks.EndAuctionTask;
-import com.reloadedsmp.chatauction.tasks.MinimalAnnounceRemainingTask;
+import me.loaidev.chatauction.tasks.AnnounceRemainingTask;
+import me.loaidev.chatauction.tasks.EndAuctionTask;
+import me.loaidev.chatauction.tasks.MinimalAnnounceRemainingTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -55,14 +55,14 @@ public class Auction {
         announceAuction(price, player); // announce the auction to players
         // create 3 scheduled tasks which will run when there are 30, 60 and 90 seconds remaining
         for (int i = 90; i > 0; i -= 30) {
-            tasks.put(new AnnounceRemainingTask(i).runTaskLater(ChatAuction.instance, (120 - i) * 20L).getTaskId(), i);
+            tasks.put(new AnnounceRemainingTask(i).runTaskLater(LoaiChatAuction.instance, (120 - i) * 20L).getTaskId(), i);
         }
         // create 2 scheduled tasks which will run when there are 10 and 5 seconds remaining
         for (int i = 10; i > 0; i -= 5) {
-            tasks.put(new MinimalAnnounceRemainingTask(i).runTaskLater(ChatAuction.instance, (120 - i) * 20L).getTaskId(), i);
+            tasks.put(new MinimalAnnounceRemainingTask(i).runTaskLater(LoaiChatAuction.instance, (120 - i) * 20L).getTaskId(), i);
         }
         // create task to end the auction
-        tasks.put(new EndAuctionTask().runTaskLater(ChatAuction.instance, 120 * 20L).getTaskId(), 0);
+        tasks.put(new EndAuctionTask().runTaskLater(LoaiChatAuction.instance, 120 * 20L).getTaskId(), 0);
         return true;
     }
 
@@ -114,8 +114,8 @@ public class Auction {
         if (!tasks.containsValue(10)) {
             tasks.forEach((id, time) -> Bukkit.getScheduler().cancelTask(id));
             tasks = new HashMap<>();
-            tasks.put(new MinimalAnnounceRemainingTask(5).runTaskLater(ChatAuction.instance, 5 * 20L).getTaskId(), 5);
-            tasks.put(new EndAuctionTask().runTaskLater(ChatAuction.instance, 10 * 20L).getTaskId(), 0);
+            tasks.put(new MinimalAnnounceRemainingTask(5).runTaskLater(LoaiChatAuction.instance, 5 * 20L).getTaskId(), 5);
+            tasks.put(new EndAuctionTask().runTaskLater(LoaiChatAuction.instance, 10 * 20L).getTaskId(), 0);
         }
         return null;
     }

@@ -1,6 +1,6 @@
-package com.reloadedsmp.chatauction.tasks;
+package me.loaidev.chatauction.tasks;
 
-import com.reloadedsmp.chatauction.Auction;
+import me.loaidev.chatauction.Auction;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;

@@ -1,7 +1,6 @@
-package com.reloadedsmp.chatauction;
+package me.loaidev.chatauction;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
