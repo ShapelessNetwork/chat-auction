@@ -17,7 +17,7 @@ public class AuctionStorage {
     protected static File storageFolder;
 
     public static boolean init(LoaiChatAuction plugin) {
-        // create folder if doesn't exist
+        // create folder if it doesn't exist
         storageFolder = new File(plugin.getDataFolder(), "storage");
         return (storageFolder.exists() || storageFolder.mkdirs());
     }
@@ -29,7 +29,7 @@ public class AuctionStorage {
 
     // get the stored items from a specific yaml file
     public static List<ItemStack> get(YamlConfiguration config) {
-        // get the items and check if it's a list or return an emtpy one
+        // get the items and check if it's a list or return an empty one
         Object items = config.get("items");
         if (!(items instanceof List)) {
             return new ArrayList<>();

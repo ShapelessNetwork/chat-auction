@@ -199,6 +199,7 @@ public class Auction {
         } else {
             Bukkit.broadcast(Component.text("Current bid: ", NamedTextColor.YELLOW).append(Component.text(Economy.format(highestBid.value), NamedTextColor.GREEN)));
         }
+        Bukkit.broadcast(Component.text("Type /Bid to bid", NamedTextColor.GRAY));
         Bukkit.broadcast(endLine());
     }
 
@@ -208,6 +209,7 @@ public class Auction {
         Bukkit.broadcast(Component.text("Item: ", NamedTextColor.YELLOW).append(itemComponent()));
         Bukkit.broadcast(Component.text("Seller: ", NamedTextColor.YELLOW).append(seller.displayName().color(NamedTextColor.GREEN)));
         Bukkit.broadcast(Component.text("Starting Price: ", NamedTextColor.YELLOW).append(Component.text(Economy.format(price), NamedTextColor.GREEN)));
+        Bukkit.broadcast(Component.text("Type /Bid to bid", NamedTextColor.GRAY));
         Bukkit.broadcast(endLine());
     }
 
