@@ -4,6 +4,7 @@ import me.loaidev.chatauction.tasks.AnnounceRemainingTask;
 import me.loaidev.chatauction.tasks.EndAuctionTask;
 import me.loaidev.chatauction.tasks.MinimalAnnounceRemainingTask;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class Auction {
         if (isActive()) return false;
         // set user, item and starting price
         seller = player.getUniqueId();
-        currentItem = item;
+        currentItem = item.clone();
         minimumBid = price;
         announceAuction(price, player); // announce the auction to players
         // create 3 scheduled tasks which will run when there are 30, 60 and 90 seconds remaining
@@ -125,7 +127,6 @@ public class Auction {
         bids.values().forEach(Bid::refund);
         // get the seller
         OfflinePlayer offlineSeller = Bukkit.getOfflinePlayer(getSellerUUID());
-        if (!offlineSeller.hasPlayedBefore()) return;
         Player seller = offlineSeller.getPlayer();
 
         // if no one bid on the item we will return the item and notify them if they are online
@@ -139,8 +140,8 @@ public class Auction {
             AuctionStorage.put(currentItem, highestBid.getPlayerUUID());
             // deposit the money into the seller's account
             Economy.deposit(offlineSeller, highestBid.value);
-            Player buyer = highestBid.getOfflinePlayer().getPlayer();
             // if the buyer is online, notify them
+            Player buyer = highestBid.getOfflinePlayer().getPlayer();
             if (buyer != null) {
                 buyer.sendMessage(Component.text("You successfully bought ", NamedTextColor.YELLOW)
                         .append(itemComponent())
@@ -151,7 +152,7 @@ public class Auction {
             // if the seller is online, notify them
             if (seller != null) {
                 seller.sendMessage(Component.text("Your item has been sold for ", NamedTextColor.YELLOW).append(Economy.format(highestBid.value, NamedTextColor.GREEN)));
-                seller.sendMessage(Component.text(String.format("+%s", Economy.format(highestBid.value)), NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+                seller.sendMessage(Component.text(String.format("+%s", Economy.format(highestBid.value)), NamedTextColor.GREEN, TextDecoration.BOLD));
             }
         }
         // broadcast the end of the auction
@@ -162,8 +163,17 @@ public class Auction {
         if (highestBid == null) {
             Bukkit.broadcast(Component.text("There was no bids.", NamedTextColor.YELLOW));
         } else {
+            OfflinePlayer offlineBuyer = highestBid.getOfflinePlayer();
+            Player buyer = offlineBuyer.getPlayer();
             // if there was a bidder
             Bukkit.broadcast(Component.text("Final Price: ", NamedTextColor.YELLOW).append(Component.text(Economy.format(highestBid.value), NamedTextColor.GREEN)));
+            Component winner = Component.text("Winner: ", NamedTextColor.YELLOW);
+            if (buyer != null) {
+                winner = winner.append(buyer.displayName().color(NamedTextColor.GREEN));
+            } else {
+                winner = winner.append(Component.text(offlineBuyer.getName() != null ? offlineBuyer.getName() : "Unknown", NamedTextColor.GREEN));
+            }
+            Bukkit.broadcast(winner);
         }
         Bukkit.broadcast(endLine());
         resetAuction();
@@ -199,7 +209,7 @@ public class Auction {
         } else {
             Bukkit.broadcast(Component.text("Current bid: ", NamedTextColor.YELLOW).append(Component.text(Economy.format(highestBid.value), NamedTextColor.GREEN)));
         }
-        Bukkit.broadcast(Component.text("Type /Bid to bid", NamedTextColor.GRAY));
+        Bukkit.broadcast(Component.text("Type /bid <price> to bid", NamedTextColor.GRAY));
         Bukkit.broadcast(endLine());
     }
 
@@ -209,7 +219,7 @@ public class Auction {
         Bukkit.broadcast(Component.text("Item: ", NamedTextColor.YELLOW).append(itemComponent()));
         Bukkit.broadcast(Component.text("Seller: ", NamedTextColor.YELLOW).append(seller.displayName().color(NamedTextColor.GREEN)));
         Bukkit.broadcast(Component.text("Starting Price: ", NamedTextColor.YELLOW).append(Component.text(Economy.format(price), NamedTextColor.GREEN)));
-        Bukkit.broadcast(Component.text("Type /Bid to bid", NamedTextColor.GRAY));
+        Bukkit.broadcast(Component.text("Type /bid <price> to bid", NamedTextColor.GRAY));
         Bukkit.broadcast(endLine());
     }
 
@@ -226,11 +236,15 @@ public class Auction {
 
     protected static Component itemComponent() {
         // returns the hoverable component of the current item.
-        Component item = currentItem.displayName().hoverEvent(currentItem.asHoverEvent()).color(NamedTextColor.GRAY);
-        if (currentItem.getAmount() > 1) {
-            return item.append(Component.text(String.format("x%d", currentItem.getAmount())));
+        ItemStack clone = currentItem.clone();
+        Component item = clone.displayName().color(NamedTextColor.GRAY);
+        if (clone.getAmount() > 1) {
+            item = item.append(Component.text(String.format("x%d", clone.getAmount())));
         }
-        return item;
+        if (clone.getItemMeta().hasDisplayName()) {
+            item = item.append(Component.text(String.format(" [%s]", clone.getI18NDisplayName())).decorate(TextDecoration.ITALIC));
+        }
+        return item.hoverEvent(currentItem.asHoverEvent());
     }
 
     public static Component prefix() {

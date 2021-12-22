@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,7 @@ public class AuctionCommand implements CommandExecutor {
                 return true;
             }
             // if the player didn't have enough space for the items, we will add them back to their storage.
-            AuctionStorage.set(player.getUniqueId(), remaining.values());
+            AuctionStorage.set(player.getUniqueId(), new ArrayList<>(remaining.values()));
             player.sendMessage(Component.text("Not all items were claimed.", NamedTextColor.YELLOW));
             return true;
         }
@@ -70,7 +72,9 @@ public class AuctionCommand implements CommandExecutor {
             return invalid("There was a problem with creating the auction.", player);
         }
         // add player to the cooldown list
-        cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
+        if (!player.hasPermission("auction.cooldown.exclude")) {
+            cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
+        }
 
         // finally, we remove the item from the player's hand
         player.getInventory().setItemInMainHand(null);

@@ -47,7 +47,7 @@ public class AuctionStorage {
     }
 
     // set the contents of the player's storage
-    public static void set(UUID uuid, Collection<ItemStack> items) {
+    public static void set(UUID uuid, List<ItemStack> items) {
         YamlConfiguration config = getConfig(uuid);
         config.set("items", items);
         try {
